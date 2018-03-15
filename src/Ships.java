@@ -108,53 +108,6 @@ public class Ships
 			break;
 		}
 	}
-	public void putBigShip(int positionX, int positionY, int direction)
-	{
-		while(checkPosition(bigShip,positionX,positionY,direction)!=true)
-		{
-			Scanner reader2 = new Scanner(System.in);
-			System.out.println("The position of the bigShip is not available because it will go outside of the map.");
-			System.out.println("Write the position X , Y and the direction of the battleship");
-			positionX= reader2.nextInt();
-			positionY= reader2.nextInt();
-			direction = reader2.nextInt();
-			reader2.close();
-			
-		}
-		changeMap(bigShip,positionX,positionY,direction);
-		
-			
-	}
-	public void putMediumShip(int positionX, int positionY, int direction)
-	{
-		while(checkPosition(mediumShip,positionX,positionY,direction)==false)
-		{
-			Scanner reader3 = new Scanner(System.in);
-			System.out.println("The position of the mediumShip is not available because it will go outside of the map.");
-			System.out.println("Write the position X , Y and the direction of the battleship");
-			positionX= reader3.nextInt();
-			positionY= reader3.nextInt();
-			direction = reader3.nextInt();
-			reader3.close();
-			
-		}
-		changeMap(mediumShip,positionX,positionY,direction);
-	}
-	public void putSmallShip(int positionX, int positionY, int direction)
-	{
-		while(checkPosition(smallShip,positionX,positionY,direction)==false)
-		{
-			Scanner reader4 = new Scanner(System.in);
-			System.out.println("The position of the smallShip is not available because it will go outside of the map.");
-			System.out.println("Write the position X , Y and the direction of the battleship");
-			positionX= reader4.nextInt();
-			positionY= reader4.nextInt();
-			direction = reader4.nextInt();
-			reader4.close();
-			
-		}
-		changeMap(smallShip,positionX,positionY,direction);
-	}
 	public boolean checkHit(int positionX, int positionY)
 	{
 		while(map[positionX][positionY]==-1 || map[positionX][positionY]==-2)
