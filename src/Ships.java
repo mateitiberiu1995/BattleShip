@@ -218,4 +218,8 @@ public class Ships
 		}
 		return true;
 	}
+	public int returnNumberOfShips()
+	{
+		return destroyersList.size();
+	}
 }
