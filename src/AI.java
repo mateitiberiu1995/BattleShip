@@ -120,6 +120,7 @@ public class AI{
 	}
 	public void weHitSomething(int x, int y)
 	{
+		if(x>=1 && x<=8 && y>=1 && y<=8)
 		if(enemyMap[x+1][y]==0 && enemyMap[x-1][y]==0 && enemyMap[x][y+1]==0 && enemyMap[x][y-1]==0)
 		{
 			firstPosition=x;
@@ -130,59 +131,38 @@ public class AI{
 				{
 					if(enemyMap[x+1][y]==-1)
 					{
-						if(enemyMap[x-1][y]==0)
-							firstPosition=x-1;
+						if(x>=2 && x<=7)
+							thirdCase(x,y);
 						else
-						{
-							int i=2;
-							while(enemyMap[x+i][y]!=0)
-							{
-								i++;
-							}
-							firstPosition = x+i;
-						}
+							if(x==1)
+								fifthCase(x,y);
+							else
+								sixthCase(x,y);
 					}
 					if(enemyMap[x-1][y]==-1)
 					{
-						if(enemyMap[x+1][y]==0)
-							firstPosition=x+1;
+						if(x>=2 && x<=7)
+							forthCase(x,y);
 						else
-						{
-							int i=2;
-							while(enemyMap[x-i][y]!=0)
-							{
-								i++;
-							}
-							firstPosition=x-i;
-						}
+							if(x==1)
+								seventhCase(x,y);
+							else
+								eigthCase(x,y);
 					}
 					if(enemyMap[x][y+1]==-1)
 					{
-						if(enemyMap[x][y-1]==0)
-							secondPosition=y-1;
+						if(y>=2 && y<=7)
+							firstCase(x,y);
 						else
-						{
-							int i=2;
-							while(enemyMap[x][y+i]!=0)
-							{
-								i++;
-							}
-							secondPosition=y+i;
-						}
+							if(y==1)
+								ninthCase(x,y);
+							else
+								tenthCase(x,y);
 					}
 					if(enemyMap[x][y-1]==-1)
 					{
-						if(enemyMap[x][y+1]==0)
-							secondPosition=y+1;
-						else
-						{
-							int i=2;
-							while(enemyMap[x][y-i]!=0)
-							{
-								i++;
-							}
-							secondPosition=y-i;
-						}
+						if(x>=2 && x<=7 && y>=2 && y<=7)
+							secondCase(x,y);
 					}
 				}
 				else
@@ -200,7 +180,357 @@ public class AI{
 									secondPosition=y-1;
 				}
 			}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
 			
+	}
+	public void firstCase(int x , int y)
+	{
+		if(enemyMap[x][y+1]==-1)
+		{
+			if(enemyMap[x][y-1]==0)
+			{
+				firstPosition=x;
+				secondPosition=y-1;
+			}
+			else {
+				if(enemyMap[x][y-1]!=0 && (enemyMap[x][y+2]==0 || enemyMap[x][y+2]==-1))
+				{
+					if( enemyMap[x][y+2]==0)
+					{
+						firstPosition=x;
+						secondPosition=y+2;
+					}
+					else
+					{
+						int i=2;
+						while(enemyMap[x][y+i]!=0)
+						{
+							i++;
+						}
+						if(enemyMap[x][y+i]==-2)
+						{
+							if(enemyMap[x+1][y]==0)
+								firstPosition=x+1;
+							else
+								if(enemyMap[x-1][y]==0)
+									firstPosition=x-1;
+						}
+						else
+							secondPosition=y+i;
+					}
+						
+				}
+			}
+		}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
+	}
+	public void secondCase(int x , int y)
+	{
+		if(enemyMap[x][y-1]==-1)
+		{
+			if(enemyMap[x][y+1]==0)
+			{
+				firstPosition=x;
+				secondPosition=y+1;
+			}
+			else {
+				if(enemyMap[x][y+1]!=0 && (enemyMap[x][y-2]==0 || enemyMap[x][y-2]==-1))
+				{
+					if( enemyMap[x][y-2]==0)
+					{
+						firstPosition=x;
+						secondPosition=y-2;
+					}
+					else
+					{
+						int i=2;
+						while(enemyMap[x][y-i]!=0)
+						{
+							i++;
+						}
+						if(enemyMap[x][y-i]==-2)
+						{
+							if(enemyMap[x+1][y]==0)
+								firstPosition=x+1;
+							else
+								if(enemyMap[x-1][y]==0)
+									firstPosition=x-1;
+						}
+						else
+							secondPosition=y+i;
+					}
+						
+				}
+			}
+		}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
+	}
+	public void thirdCase(int x, int y)
+	{
+		if(enemyMap[x+1][y]==-1)
+		{
+			if(enemyMap[x-1][y]==0)
+			{
+				firstPosition=x-1;
+				secondPosition=y;
+			}
+			else {
+				if(enemyMap[x-1][y]!=0 && (enemyMap[x-2][y]==0 || enemyMap[x-2][y]==-1))
+				{
+					if( enemyMap[x-2][y]==0)
+					{
+						firstPosition=x-2;
+						secondPosition=y;
+					}
+					else
+					{
+						int i=2;
+						while(enemyMap[x+i][y]!=0)
+						{
+							i++;
+						}
+						if(enemyMap[x+i][y]==-2)
+						{
+							if(enemyMap[x][y+1]==0)
+								secondPosition=y+1;
+							else
+								if(enemyMap[x][y-1]==0)
+									secondPosition=y-1;
+						}
+						else
+							firstPosition=x+i;
+					}
+						
+				}
+			}
+		}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
+	}
+	public void forthCase(int x,int y)
+	{
+		if(enemyMap[x-1][y]==-1)
+		{
+			if(enemyMap[x+1][y]==0)
+			{
+				firstPosition=x+1;
+				secondPosition=y;
+			}
+			else {
+				if(enemyMap[x+1][y]!=0 && (enemyMap[x+2][y]==0 || enemyMap[x+2][y]==-1))
+				{
+					if( enemyMap[x+2][y]==0)
+					{
+						firstPosition=x+2;
+						secondPosition=y;
+					}
+					else
+					{
+						int i=2;
+						while(enemyMap[x-i][y]!=0)
+						{
+							i++;
+						}
+						if(enemyMap[x-i][y]==-2)
+						{
+							if(enemyMap[x][y+1]==0)
+								secondPosition=y+1;
+							else
+								if(enemyMap[x][y-1]==0)
+									secondPosition=y-1;
+						}	
+						else
+							firstPosition=x-i;
+					}
+						
+				}
+			}
+		}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
+	}
+	public void fifthCase(int x ,int y)
+	{
+		if(enemyMap[x-1][y]==0)
+		{
+			firstPosition=x-1;
+		}
+		else
+			if(enemyMap[x+2][y]==0)
+			{
+				firstPosition=x+2;
+			}
+			else
+				if(enemyMap[x+2][y]==-1)
+				{
+					int i=2;
+					while(enemyMap[x+i][y]!=0)
+					{
+						i++;
+					}
+					if(enemyMap[x+i][y]==-2)
+					{
+						if(enemyMap[x][y+1]==0)
+							secondPosition=y+1;
+						else
+							if(enemyMap[x][y-1]==0)
+								secondPosition=y-1;
+					}
+					else
+						firstPosition=x+i;
+				}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
+	}
+	public void sixthCase(int x , int y)
+	{
+		if(enemyMap[x-1][y]==0)
+		{
+			firstPosition=x-1;
+		}
+		else
+		{
+			if(enemyMap[x-1][y]==-1)
+			{
+				int i=2;
+				while(enemyMap[x-i][y]!=0)
+				{
+					i++;
+				}
+				if(enemyMap[x-i][y]==-2)
+				{
+					if(enemyMap[x][y+1]==0)
+						secondPosition=y+1;
+					else
+						if(enemyMap[x][y-1]==0)
+							secondPosition=y-1;
+				}
+				else
+					firstPosition=x-i;
+			}
+		}
+	}
+	public void seventhCase(int x,int y)
+	{
+		if(enemyMap[x+1][y]==0)
+			firstPosition=x+1;
+		else
+			if(enemyMap[x+1][y]==-1)
+			{
+				int i=2;
+				while(enemyMap[x+i][y]!=0)
+				{
+					i++;
+				}
+				if(enemyMap[x+i][y]==-2)
+				{
+					if(enemyMap[x][y+1]==0)
+						secondPosition=y+1;
+					else
+						if(enemyMap[x][y-1]==0)
+							secondPosition=y-1;
+				}
+				else
+					firstPosition=x+i;
+			}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
+	}
+	public void eigthCase(int x,int y)
+	{
+		if(enemyMap[x+1][y]==0)
+			firstPosition=x+1;
+		else
+			if(enemyMap[x+1][y]==-1 || enemyMap[x+1][y]==-2)
+			{
+				int i=2;
+				while(enemyMap[x-i][y]!=0)
+				{
+					i++;
+				}
+				if(enemyMap[x-i][y]==-2)
+				{
+					if(enemyMap[x][y+1]==0)
+						secondPosition=y+1;
+					else
+						if(enemyMap[x][y-1]==0)
+							secondPosition=y-1;
+				}
+				else
+					firstPosition=x-i;
+			}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
+	}
+	public void ninthCase(int x, int y)
+	{
+		if(enemyMap[x][y-1]==0)
+		{
+			secondPosition=y-1;
+		}
+		else
+			if(enemyMap[x][y+2]==0)
+			{
+				secondPosition=y+2;
+			}
+			else
+				if(enemyMap[x][y+2]==-1)
+				{
+					int i=2;
+					while(enemyMap[x][y+i]!=0)
+					{
+						i++;
+					}
+					if(enemyMap[x][y+i]==-2)
+					{
+						if(enemyMap[x+1][y]==0)
+							firstPosition=x+1;
+						else
+							if(enemyMap[x-1][y]==0)
+								firstPosition=x-1;
+					}
+					else
+						secondPosition=y+i;
+				}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
+	}
+	public void tenthCase(int x,int y)
+	{
+		if(enemyMap[x][y-1]==0)
+			secondPosition = y-1;
+		else
+			if(enemyMap[x][y-1]==-1)
+			{
+				int i=2;
+				while(enemyMap[x][y-i]!=0)
+				{
+					i++;
+				}
+				if(enemyMap[x][y-i]==-2)
+				{
+					if(enemyMap[x+1][y]==0)
+						firstPosition=x+1;
+					else
+						if(enemyMap[x-1][y]==0)
+							firstPosition=x-1;
+				}
+				else
+					secondPosition=y+i;
+			}
+		if(checkIfPossible(firstPosition,secondPosition)== false)
+			nextTurn();
+	}
+	public boolean checkIfPossible(int x, int y)
+	{
+		if(enemyMap[x][y]==-1 || enemyMap[x][y]==-2)
+			return false;
+		if(x<0 || x>9 || y<0 || y>9)
+			return false;
+		return true;
 	}
 	public boolean checkHit(int positionX, int positionY)
 	{
