@@ -3,15 +3,15 @@ public class Battleship {
 	
 	public static void main(String[] args) {
 		
+		AI computer = new AI();
+		//computer.print();
 		Ships Arena1;
-		Ships Arena2;
+		//Ships Arena2;
 		Arena1 = new Ships();
-		Arena2= new Ships();
+		//Arena2= new Ships();
 		Arena1=game(Arena1);
-		System.out.println(" dsadas ");
-		Arena2=game(Arena2);
-		System.out.println(" dsadas ");
-		play(Arena1,Arena2);
+		//Arena2=game(Arena2);
+		playVsAI(Arena1,computer);
 
 	}
 	public static Ships game(Ships Arena)
@@ -39,23 +39,6 @@ public class Battleship {
 			direction = reader1.nextInt();
 		}while((positionX<1 || positionX>10) || (positionY<1 || positionY>10) || (direction<1 || direction>4) || Arena.checkPosition(2,positionX-1,positionY-1,direction)==false);
 		Arena.changeMap(2,positionX-1, positionY-1, direction);
-		/*while(Arena1.anyoneThere())
-		{
-			System.out.println("Private. Let's win this. Missile position.");
-			positionX = reader.nextInt();
-			positionY = reader.nextInt();
-			while(Arena1.checkHit(positionX-1, positionY-1) && Arena1.anyoneThere())
-			{
-				Arena1.print();
-				System.out.println("They are trying to run. shoot another one.");
-				positionX = reader.nextInt();
-				positionY = reader.nextInt();
-				
-			}
-			Arena1.print();
-			
-		}*/
-		//System.out.println("You won.");
 		//reader1.close();
 		return Arena;
 	}
@@ -100,6 +83,79 @@ public class Battleship {
 			System.out.println(" Player 1 won.");
 		else
 			System.out.println(" Player 2 won. ");
+		reader.close();
+	}
+	public static void playVsAI(Ships Arena, AI computer)
+	{
+		Scanner reader = new Scanner(System.in);
+		int lastXposition=10,lastYposition=10,positionX,positionY;
+		boolean lucky = false;
+		int battleshipsPlayer=Arena.returnNumberOfShips();
+		while(Arena.anyoneThere() && computer.anyoneThere())
+		{
+			if(lucky== true && battleshipsPlayer!=Arena.returnNumberOfShips())
+			{
+				lucky=false;
+				battleshipsPlayer = Arena.returnNumberOfShips();
+			}
+			System.out.println("Player 1 turn. Say the position of the missile.");
+			computer.print();
+			positionX = reader.nextInt();
+			positionY = reader.nextInt();
+			while(computer.checkHit(positionX-1, positionY-1) && computer.anyoneThere())
+			{
+				
+				System.out.println("They are trying to run. shoot another one.");
+				computer.print();
+				positionX = reader.nextInt();
+				positionY = reader.nextInt();
+				
+			}
+			computer.print();
+			if(computer.anyoneThere()) 
+			{
+				if(lucky==false)
+				{
+					computer.nextTurn();
+					while(Arena.checkHit(computer.getX(), computer.getY()) && Arena.anyoneThere())
+					{
+						computer.changePositionMap(computer.getX(), computer.getY(), -1);
+						Arena.print();
+						computer.printEnemy();
+						lucky=true;
+						lastXposition = computer.getX();
+						lastYposition = computer.getY();
+						computer.weHitSomething(computer.getX(), computer.getY());
+						
+					}
+					computer.changePositionMap(computer.getX(), computer.getY(), -2);
+					Arena.print();
+					computer.printEnemy();
+				}
+				else
+				{
+					computer.weHitSomething(lastXposition, lastYposition);
+					while(Arena.checkHit(computer.getX(), computer.getY()) && Arena.anyoneThere())
+					{
+						computer.changePositionMap(computer.getX(), computer.getY(), -1);
+						Arena.print();
+						computer.printEnemy();
+						lucky=true;
+						lastXposition = computer.getX();
+						lastYposition = computer.getY();
+						computer.weHitSomething(computer.getX(), computer.getY());
+						
+					}
+					computer.changePositionMap(computer.getX(), computer.getY(), -2);
+					Arena.print();
+					computer.printEnemy();
+				}
+			}
+		}
+		if(computer.anyoneThere())
+			System.out.println("computer won.");
+		else
+			System.out.println("player won");
 		reader.close();
 	}
 	
